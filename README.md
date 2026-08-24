@@ -1,255 +1,195 @@
-#  Enhanced Flower Recognition Using ResNet-50
+# 🍅 Tomato Leaf Disease Classification using CNN & Transfer Learning
 
-## 📌 About the Project
+## 📌 Overview
 
-This project implements a **flower image classification system using ResNet-50 Transfer Learning**.
+This project implements an image classification pipeline for **tomato leaf disease detection** using the PlantVillage dataset.
 
-A pre-trained **ResNet-50 model with ImageNet weights** is used as the backbone and fine-tuned to classify flower images into **5 different categories**.
+Three deep learning models are implemented and compared:
 
-The project focuses on improving flower recognition performance through **Transfer Learning, Data Augmentation, and Fine-Tuning**.
+- Custom CNN trained from scratch
+- MobileNetV2 using Transfer Learning
+- ResNet50 using Transfer Learning
+
+The models are evaluated based on classification performance, training time, and model complexity.
 
 ---
 
 ## 🎯 Objectives
 
-* Classify flower images into five different categories.
-* Utilize **ResNet-50 Transfer Learning** for image classification.
-* Apply **data augmentation** to improve model generalization.
-* Fine-tune the final layers of the pre-trained model.
-* Evaluate model performance using multiple classification metrics.
-* Visualize training performance and feature maps.
+- Classify tomato leaf diseases using CNN.
+- Apply image preprocessing and data augmentation.
+- Train a custom CNN from scratch.
+- Apply transfer learning using MobileNetV2 and ResNet50.
+- Perform feature extraction and fine-tuning.
+- Compare models using Accuracy, Precision, Recall and F1-score.
+- Compare training time and number of parameters.
+- Analyze the advantages and limitations of each model.
+
+---
+
+## 📚 Research Paper
+
+**Title:** Comparing pre-trained models for efficient leaf disease detection: a study on custom CNN
+
+**Authors:** Touhidul Seyam Alam, Chandni Barua Jowthi and Abhijit Pathak
+
+**Year:** 2024
+
+**DOI:** 10.1186/s43067-024-00137-1
+
+**Paper:**  
+https://link.springer.com/article/10.1186/s43067-024-00137-1
+
+The implementation follows the comparative methodology of the research paper while focusing on the **10 tomato classes** of the PlantVillage dataset and using Custom CNN, MobileNetV2 and ResNet50.
 
 ---
 
 ## 📂 Dataset
 
-The project uses the **TensorFlow Flower Photos Dataset**.
+**PlantVillage Dataset – Kaggle**
 
-### Flower Classes
+https://www.kaggle.com/datasets/abdallahalidev/plantvillage-dataset
 
-| Class         | Description       |
-| ------------- | ----------------- |
-| 🌼 Daisy      | Daisy flowers     |
-| 🌻 Dandelion  | Dandelion flowers |
-| 🌹 Roses      | Rose flowers      |
-| 🌻 Sunflowers | Sunflower images  |
-| 🌷 Tulips     | Tulip flowers     |
+Only the tomato portion of the dataset is used.
 
 ### Dataset Details
 
-* **Total Images:** 3,670
-* **Number of Classes:** 5
-* **Image Size:** 224 × 224
-* **Batch Size:** 32
+- Total Images: **18,160**
+- Classes: **10**
+- Training: **12,712**
+- Validation: **2,724**
+- Testing: **2,724**
+- Image Size: **224 × 224**
+- Batch Size: **32**
+
+### Tomato Classes
+
+- Bacterial Spot
+- Early Blight
+- Late Blight
+- Leaf Mold
+- Septoria Leaf Spot
+- Spider Mites
+- Target Spot
+- Yellow Leaf Curl Virus
+- Tomato Mosaic Virus
+- Healthy
 
 ---
 
-## 🧠 Model Architecture
+## 🧠 Models
 
-The project uses **ResNet-50**, a deep convolutional neural network pre-trained on the **ImageNet dataset**.
+### Custom CNN
 
-### Architecture
+A CNN is trained completely from scratch using convolution, max-pooling, dense and dropout layers.
 
-```text
-Input Image
-     ↓
-ResNet-50
-(ImageNet Weights)
-     ↓
-Global Average Pooling
-     ↓
-Dropout
-     ↓
-Dense Layer
-     ↓
-Softmax
-     ↓
-5 Flower Classes
-```
+**Maximum Epochs:** 10  
+**Optimizer:** Adam  
+**Learning Rate:** 0.001
 
-### Transfer Learning Strategy
+### MobileNetV2
 
-1. Load the pre-trained ResNet-50 model with ImageNet weights.
-2. Remove the original classification head.
-3. Add a custom classification layer for 5 flower classes.
-4. Initially train the new classification layers.
-5. Unfreeze the last 20 layers of ResNet-50.
-6. Fine-tune the model using the flower dataset.
+MobileNetV2 is used with ImageNet pretrained weights.
+
+- Feature extraction with frozen base
+- Fine-tuning of the last 30 layers
+- Fine-tuning learning rate: `1e-5`
+
+MobileNetV2 was selected because it is lightweight and computationally efficient.
+
+### ResNet50
+
+ResNet50 is used with ImageNet pretrained weights.
+
+- Feature extraction with frozen base
+- Fine-tuning of the last 30 layers
+- Fine-tuning learning rate: `1e-5`
+
+ResNet50 was selected because its deep residual architecture provides strong feature extraction capability.
 
 ---
 
-## 🔄 Methodology
+## 📊 Results
 
-The overall workflow of the project is:
+| Model | Accuracy | Precision | Recall | F1-Score | Training Time |
+|---|---:|---:|---:|---:|---:|
+| Custom CNN | 87.04% | 87.21% | 87.04% | 86.70% | 214.92 sec |
+| MobileNetV2 | 91.56% | 91.72% | 91.56% | 91.29% | 289.71 sec |
+| **ResNet50** | **94.93%** | **95.17%** | **94.93%** | **94.90%** | 653.89 sec |
 
-```text
-Flower Dataset
-      ↓
-Data Loading
-      ↓
-Image Preprocessing
-      ↓
-Data Augmentation
-      ↓
-ResNet-50 Transfer Learning
-      ↓
-Train Classification Layers
-      ↓
-Fine-Tune Last 20 Layers
-      ↓
-Model Evaluation
-      ↓
-Performance Visualization
-```
+### Model Complexity
+
+| Model | Parameters |
+|---|---:|
+| **MobileNetV2** | **2.27 M** |
+| Custom CNN | 5.63 M |
+| ResNet50 | 23.61 M |
+
+---
+
+## 🔍 Comparative Analysis
+
+- **ResNet50** achieved the highest classification performance.
+- **MobileNetV2** provided the best balance between accuracy and model complexity.
+- **Custom CNN** had the shortest training time.
+- Transfer learning improved performance compared with the custom CNN.
+
+### Final Conclusion
+
+**ResNet50** performed best in terms of Accuracy, Precision, Recall and F1-score.
+
+However, **MobileNetV2** is more suitable for resource-constrained applications because it uses significantly fewer parameters while still achieving high accuracy.
+
+The **Custom CNN** provides a simple and fast baseline but achieved lower classification performance.
+
+---
+
+## 📈 Evaluation & Visualizations
+
+The project includes:
+
+- Class distribution
+- Sample images
+- Accuracy and loss curves
+- Confusion matrices
+- CNN feature-map visualization
+- Precision, Recall and F1-score
+- Training-time comparison
+- Parameter comparison
+- Final prediction demonstration
 
 ---
 
 ## 🛠️ Technologies Used
 
-* **Python**
-* **TensorFlow**
-* **Keras**
-* **ResNet-50**
-* **NumPy**
-* **Matplotlib**
-* **Seaborn**
-* **Scikit-learn**
-* **Google Colab / Jupyter Notebook**
+- Python
+- TensorFlow / Keras
+- NumPy
+- Pandas
+- Matplotlib
+- Seaborn
+- Scikit-learn
+- Google Colab
+- Kaggle API
 
 ---
 
-## 📊 Model Evaluation
+## 🚀 How to Run
 
-The trained model is evaluated using the following performance metrics:
-
-* **Accuracy**
-* **Precision**
-* **Recall**
-* **F1-Score**
-* **Confusion Matrix**
-
-### Visualizations
-
-The project also includes:
-
-* Training Accuracy vs Validation Accuracy
-* Training Loss vs Validation Loss
-* Confusion Matrix
-* Classification Performance
-* Feature Map Visualization
-
-These visualizations help analyze the model's learning behavior and classification performance.
+1. Open the `.ipynb` notebook in **Google Colab**.
+2. Select **T4 GPU** from Runtime settings.
+3. Configure the Kaggle API token using Colab Secrets.
+4. Run the notebook cells sequentially.
+5. The dataset will be downloaded automatically.
+6. Models will be trained and evaluated.
+7. Comparative results and predictions will be generated.
 
 ---
 
 ## 📁 Project Structure
 
 ```text
-GenerativeAI-Lab-Assignment1/
+Tomato-Leaf-Disease-Classification/
 │
-├── Amruta_Kanase_GenAI_LabAssignment1.ipynb
-│
-└── README.md
-```
-
-### File Description
-
-**`.ipynb`**
-
-Contains the complete implementation, including:
-
-* Dataset loading
-* Data preprocessing
-* Data augmentation
-* ResNet-50 model implementation
-* Transfer learning
-* Fine-tuning
-* Model training
-* Evaluation
-* Visualization
-
-**`README.md`**
-
-Contains project documentation, methodology, technologies, and instructions for running the project.
-
----
-
-## ▶️ How to Run
-
-### 1. Clone the Repository
-
-```bash
-https://github.com/AmrutaKanse09/GenerativeAI-Lab-Assignment1
-```
-
-### 2. Open the Notebook
-
-You can open the notebook using:
-
-* **Google Colab**
-* **Jupyter Notebook**
-* **JupyterLab**
-* **VS Code**
-
-### 3. Install Required Libraries
-
-```bash
-pip install tensorflow numpy matplotlib seaborn scikit-learn
-```
-
-### 4. Run the Notebook
-
-Open:
-
-```text
-Amruta_Kanase_GenAI_LabAssignment1.ipynb
-```
-
-Run the cells **sequentially from top to bottom**.
-
----
-
-## 💡 Key Features
-
-✅ ResNet-50 Transfer Learning
-✅ ImageNet Pre-trained Weights
-✅ Data Augmentation
-✅ Fine-Tuning of Last 20 Layers
-✅ Five-Class Flower Classification
-✅ Accuracy, Precision, Recall & F1-Score
-✅ Confusion Matrix
-✅ Training Performance Visualization
-✅ Feature Map Visualization
-
----
-
-## 🚀 Future Improvements
-
-* Use a larger and more diverse flower dataset.
-* Experiment with other architectures such as **EfficientNet, DenseNet, and MobileNet**.
-* Apply hyperparameter optimization.
-* Deploy the trained model using **Streamlit** or **TensorFlow Serving**.
-* Add real-time flower recognition using a webcam or mobile camera.
-* Compare ResNet-50 with other transfer learning models.
-
----
-
-## 👩‍💻 Author
-
-**Amruta Kanase**
-
----
-
-## ⭐ Acknowledgements
-
-* TensorFlow / Keras
-* ImageNet
-* TensorFlow Flower Photos Dataset
-* Scikit-learn
-* Google Colab
-
----
-
-## 📜 License
-
-This project is created for **educational and research purposes**.
+├── README.md
+└── Amruta_Kanase_GenerativeAI_practical1.ipynb
